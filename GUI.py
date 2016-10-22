@@ -12,49 +12,48 @@ root = Tk()
 Label(text="Enter Address:").pack()
 loca = Entry(root, width=50)
 loca.pack()
-loca.insert(END,"382 cavendish Drive waterloo Ontario")
-f = Figure()
-a = f.add_subplot(111)
+loca.insert(END, "382 cavendish Drive waterloo Ontario")
+radius = 1000;
 
-m = Basemap(projection='cyl', llcrnrlat=-90, urcrnrlat=90, \
-            llcrnrlon=-180, urcrnrlon=180, resolution='c',
-            ax=a)
-m.drawparallels(np.arange(-90., 91., 1.))
-m.drawmeridians(np.arange(-180., 181., 1.))
-m.drawcoastlines()
-m.fillcontinents(color="coral",lake_color='lightblue')
-m.drawmapboundary(fill_color="blue")
-# m.bluemarble()
+
 
 def _quit():
-    root.quit()  # stops mainloop
-    root.destroy()  # this is necessary on Windows to prevent
+    root.quit()
+    root.destroy()
 
+f = Figure()
+f.add_subplot(111)
 
 button = Button(master=root, text='Quit', command=_quit)
 button.pack(side=BOTTOM)
 
 
 def get():
+
     a = loca.get()
-    print(type(a))
+    root.destroy()
     location = geoL.geocode(a)
+    m = Basemap(projection='cyl', llcrnrlat=location.latitude - radius / 111,
+                urcrnrlat=location.latitude + radius / 111, llcrnrlon=location.longitude - radius / 111,
+                urcrnrlon=location.longitude + radius / 111, resolution='i')
     print(location.latitude, location.longitude)
+    m.drawparallels(np.arange(location.longitude + radius / 111, location.longitude - radius / 111, 1.))
+    m.drawmeridians(np.arange(location.latitude + radius / 111, location.latitude - radius / 111, 1.))
+    m.drawcoastlines()
+    m.fillcontinents(color="coral", lake_color='lightblue')
+    m.drawmapboundary(fill_color="blue")
     m.plot(x=location.longitude, y=location.latitude, marker="^", markersize=16, latlon=True)
     plt.show()
-    canvas = FigureCanvasTkAgg(f, master=root)
-    canvas.show()
-    canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-
-    toolbar = NavigationToolbar2TkAgg(canvas, root)
-    toolbar.update()
-    canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
-
-    loca.delete(0, END)
+    # loca.delete(0, END)
+    # canvas = FigureCanvasTkAgg(f, master=root)
+    # canvas.show()
+    # canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+    # toolbar = NavigationToolbar2TkAgg(canvas, root)
+    # toolbar.update()
+    # canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
 
 
 send = Button(root, text="send", command=get)
-
 send.pack()
 mainloop()
 
