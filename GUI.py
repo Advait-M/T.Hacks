@@ -37,8 +37,8 @@ def get():
                 urcrnrlat=location.latitude + radius / 111, llcrnrlon=location.longitude - radius / 111,
                 urcrnrlon=location.longitude + radius / 111, resolution='i')
     print(location.latitude, location.longitude)
-    m.drawmeridians(np.arange(location.longitude - radius / 111, location.longitude + radius / 111, 1.))
-    m.drawparallels(np.arange(location.latitude - radius / 111, location.latitude + radius / 111, 1.))
+    m.drawmeridians(np.arange(location.longitude - radius / 111, location.longitude + radius / 111, radius/222))
+    m.drawparallels(np.arange(location.latitude - radius / 111, location.latitude + radius / 111, radius/222))
     # m.drawparallels(np.arange(-90., 91., (radius)/222))
     # m.drawmeridians(np.arange(-180., 181., (radius)/222))
     m.drawcoastlines()
