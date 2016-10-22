@@ -11,10 +11,10 @@ import csv
 
 from twitter import *
 
-def getValue(latitude, longitude):
+def getValue(latitude, longitude, radius):
     #latitude = 8.6195#42.3#18.563747#51.474144#49.28402 ##51.474144  # geographical centre of search
     #longitude = 0.8248#-83#-72.142439#-0.035401#-123.11765 ##-0.035401  # geographical centre of search
-    max_range = 200  # search range in kilometres
+    max_range = radius # search range in kilometres
     num_results = 1 # minimum results to obtain
     outfile = "output.csv"
 
@@ -93,4 +93,4 @@ def getValue(latitude, longitude):
     return averageCompound
 
 if __name__ == "__main__":
-    print(getValue(8.6195, 0.8248))
+    print(getValue(8.6195, 0.8248, 200))
