@@ -7,9 +7,9 @@ sentences = ["Super movie","great day","disaster in haiti after hurricane"# mixe
 
 def sentimentcalc(sentence):
     sid = SentimentIntensityAnalyzer()
-    print(sentence)
+    #print(sentence)
     ss = sid.polarity_scores(sentence)
-    print(ss)
-    for k in sorted(ss):
-        print(k, ss[k])
+    #print(ss)
+    #for k in sorted(ss):
+        #print(k, ss[k])
     return ss["compound"]
