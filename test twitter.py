@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import sentiment
 
 # -----------------------------------------------------------------------
 # twitter-search-geo
@@ -10,14 +11,14 @@ import csv
 
 from twitter import *
 
-latitude = 18.563747#51.474144  # geographical centre of search
-longitude = -72.142439#-0.035401  # geographical centre of search
-max_range = 100  # search range in kilometres
-num_results = 1  # minimum results to obtain
+latitude = 8.6195#42.3#18.563747#51.474144#49.28402 ##51.474144  # geographical centre of search
+longitude = 0.8248#-83#-72.142439#-0.035401#-123.11765 ##-0.035401  # geographical centre of search
+max_range = 200  # search range in kilometres
+num_results = 1 # minimum results to obtain
 outfile = "output.csv"
 
 # -----------------------------------------------------------------------
-# load our API credentials 
+# load our API credentials
 # -----------------------------------------------------------------------
 config = {}
 with open("config.py") as f:
@@ -52,26 +53,24 @@ while result_count < num_results:
     # perform a search based on latitude and longitude
     # twitter API docs: https://dev.twitter.com/docs/api/1/get/search
     # -----------------------------------------------------------------------
-    query = twitter.search.tweets(q="hurricane", geocode="%f,%f,%dkm" % (latitude, longitude, max_range), count=100,
-                                  max_id=last_id)
-
+    query = twitter.search.tweets(q="", geocode="%f,%f,%dkm" % (latitude, longitude, max_range), count=100,
+                                  max_id=last_id, until="2016-10-22")
+    print(len(query["statuses"]))
     for result in query["statuses"]:
         # -----------------------------------------------------------------------
         # only process a result if it has a geolocation
         # -----------------------------------------------------------------------
-        if result["geo"]:
-            user = result["user"]["screen_name"]
-            text = result["text"]
-            text = text.encode('ascii', 'replace')
-            latitude = result["geo"]["coordinates"][0]
-            longitude = result["geo"]["coordinates"][1]
+        user = result["user"]["screen_name"]
+        text = result["text"]
+        text = text.encode('ascii', 'replace')
 
-            # now write this row to our CSV file
-            row = [user, text, latitude, longitude]
-            csvwriter.writerow(row)
-            result_count += 1
-        last_id = result["id"]
-
+        # now write this row to our CSV file
+        row = [user, text]
+        csvwriter.writerow(row)
+        result_count += 1
+        sentiment.sentimentcalc(result["text"])
+    last_id = result["id"]
+    print()
     # -----------------------------------------------------------------------
     # let the user know where we're up to
     # -----------------------------------------------------------------------
