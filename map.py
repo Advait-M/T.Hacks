@@ -9,8 +9,8 @@ import PIL
 m = Basemap(projection='cyl',llcrnrlat=-90,urcrnrlat=90,\
             llcrnrlon=-180,urcrnrlon=180,resolution='c')
 # draw parallels and meridians.
-m.drawparallels(np.arange(-90.,91.,30.))
-m.drawmeridians(np.arange(-180.,181.,60.))
+m.drawparallels(np.arange(-90.,91.,5.))
+m.drawmeridians(np.arange(-180.,181.,10.))
 m.bluemarble()
 plt.title("Equidistant Cylindrical Projection")
 plt.show()
