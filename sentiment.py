@@ -12,4 +12,4 @@ def sentimentcalc(sentence):
     print(ss)
     for k in sorted(ss):
         print(k, ss[k])
-    print()
+    return ss["compound"]
